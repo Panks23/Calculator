@@ -19,6 +19,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
+
+import javax.mail.AuthenticationFailedException;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -110,7 +113,8 @@ public class CalculatorBasicTest {
 
         Integer sum = calculator.add(listOfNumbers);
         calculator.sendResults();
-        assertEquals("The calculator should return usual sum", -1, (int)sum);
+		assertEquals("The calculator should return usual sum", -1, (int)sum);
+      
     }
     
     

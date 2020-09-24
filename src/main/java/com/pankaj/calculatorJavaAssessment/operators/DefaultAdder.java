@@ -21,8 +21,8 @@ public class DefaultAdder implements Adder{
 
     @Override
     public Integer add(List<Integer> numbers) {
-    	logger.info("Adding List of Numbers");
     	if(numbers.size()>0) {
+        	logger.info("Adding List of Numbers");
 	    	int sum = 0;
 	        for (int i=0; i<numbers.size(); i++) {
 	        	sum+=numbers.get(i);
