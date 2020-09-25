@@ -18,7 +18,7 @@ public class DefaultDivider implements Divider {
         	return a/b;
         }else {
         	logger.debug("Dividing number by zero");
-        	throw new ArithmeticException();
+        	throw new ArithmeticException("Number is  divided by  zero is throwing an exception");
         }
     }
 }

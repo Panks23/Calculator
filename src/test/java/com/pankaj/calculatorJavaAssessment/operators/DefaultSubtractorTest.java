@@ -15,8 +15,6 @@ public class DefaultSubtractorTest {
 	@Before
 	public void init() {
 		defaultSubtractor = new DefaultSubtractor();
-		String log4j = System.getProperty("user.dir")+ "/log4j.properties";
-	    PropertyConfigurator.configure(log4j);
 	}
 	
 	 @Test

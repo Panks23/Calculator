@@ -38,7 +38,7 @@ public class DefaultMultiplierTest {
 	        try {
 	        	defaultMultiplier.multiply(emptyList);
 	            fail("Adding an empty list should throw exception");
-	        } catch (Exception e) {
+	        } catch (RuntimeException e) {
 	            assertTrue("Passing an emptyList to defaultAdder threw exception as expected", true);
 	        }
 	    }

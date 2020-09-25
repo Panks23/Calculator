@@ -26,11 +26,11 @@ public class DefaultDividerTest {
 	    }
 	 
 	  @Test
-	    public void divideByZero() {
+	    public void divideByZeroShouldThrowArithmenticExceptionTest() {
 	        try {
 	        	defaultDivider.divide(10, 0);
 	            fail("Dividing by zero");
-	        } catch (Exception e) {
+	        } catch (ArithmeticException e) {
 	            assertTrue("Dividing by zero threw an exception as expected", true);
 	        }
 	    }
