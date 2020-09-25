@@ -58,7 +58,7 @@ public class DefaultAdderTest {
     }
     
     @Test
-    public void lambdaAdderForEmptyListTest() {
+    public void lambdaAdderForEmptyListShouldThrowExceptionTest() {
     	Adder add = number ->{
     		if(number.size()>0) {
     		int sum = 0;
@@ -77,5 +77,25 @@ public class DefaultAdderTest {
         } catch (Exception e) {
             assertTrue("Passing an emptyList to defaultAdder threw exception as expected", true);
         }
+    }
+    
+    @Test
+    public void addWithStreamTest() {
+    	   Adder addWithStream =  new AddWithStream();
+    	   List<Integer> numbersToBeAdded = Arrays.asList(5, 10, -6, 0);
+           Integer sum = addWithStream.add(numbersToBeAdded);
+           assertEquals("The sum should be 9", 9, (int)sum);
+    }
+    
+    @Test
+    public void addWithStreamForEmptyListShouldThrowException() {
+    	  List<Integer> emptyList = new ArrayList<>();
+    	  Adder addWithStream =  new AddWithStream();
+          try {
+        	  addWithStream.add(emptyList);
+              fail("Adding an empty list should throw exception");
+          } catch (RuntimeException e) {
+              assertTrue("Passing an emptyList to defaultAdder threw exception as expected", true);
+          }
     }
 }
