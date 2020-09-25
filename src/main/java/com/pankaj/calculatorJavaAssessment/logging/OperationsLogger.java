@@ -14,6 +14,7 @@ import static com.pankaj.calculatorJavaAssessment.notification.NotificationConst
 
 import java.io.File;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.log4j.Logger;
 
@@ -45,17 +46,22 @@ public class OperationsLogger {
     public void logOperations(List<Operation> operations, LoggingStrategy loggingStrategy) {
     	
         File file = createLogFileWithGivenFileFormat(operations, loggingStrategy);
-    	Notification notification = createNotification(loggingStrategy, file);
-    	notificationsSender = getNotificationsSender();
-    	notificationsSender.sendNotification(notification);
+        Optional<File> optionalFile = Optional.ofNullable(file);
+        if(optionalFile.isEmpty()) {
+        	logger.error("Failed to create log file");
+        }else {
+	    	Notification notification = createNotification(loggingStrategy, optionalFile.get());
+	    	notificationsSender = getNotificationsSender();
+	    	notificationsSender.sendNotification(notification);
+        }
     }
     
     public File createLogFileWithGivenFileFormat(List<Operation> operations, LoggingStrategy loggingStrategy) {
     	try {
-    	logfileCreator = getLogfileCreator(loggingStrategy.getFileFormat());
-    	File file = logfileCreator.createLogFile(operations);
-    	logger.info("Created log file");
-    	return file;
+	    	logfileCreator = getLogfileCreator(loggingStrategy.getFileFormat());
+	    	File file = logfileCreator.createLogFile(operations);
+	    	logger.info("Created log file");
+	    	return file;
     	}catch(Exception e) {
     		logger.info("Unable to create log file");
     		e.printStackTrace();
@@ -64,9 +70,6 @@ public class OperationsLogger {
     }
     
     public Notification createNotification(LoggingStrategy loggingStrategy, File file) {
-    	if(file==null) {
-    		logger.debug("No file found");	
-    	}
     	Notification notification = new Notification();
     	notification.setToAddress(loggingStrategy.getEmail());
     	notification.setFromAddress(SENDER_EMAIL_ADDRESS);

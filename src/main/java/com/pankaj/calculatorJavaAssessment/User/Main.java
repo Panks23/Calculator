@@ -3,13 +3,11 @@ package com.pankaj.calculatorJavaAssessment.User;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.pankaj.calculatorJavaAssessment.Calculator;
@@ -52,6 +50,30 @@ public class Main {
 			e.printStackTrace();
 		}
 	}
+	
+	CompletableFuture.supplyAsync(() -> {
+		Calculator calc = userList.get(0).getCalculator();
+		List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
+		int num = calc.add(numbers);;
+		return num;
+	}).thenApply(num -> {
+		System.out.println(num+1);
+		return num+1;
+	});
+	
+	
+	CompletableFuture.supplyAsync(() -> {
+		return userList.get(0).getName();
+	}).thenAccept(user -> {
+		System.out.println("Got product detail from remote service " + user);
+	});
+	
+	
+	CompletableFuture.supplyAsync(() -> {
+		return userList.get(0).getName();
+	}).thenRun(() -> {
+		System.out.println("Got product detail from remote service ");
+	});
 	
 	Double avg = (double) (resultList.stream().map(i -> i*2).reduce(0, (res, num) -> res+num)/resultList.size());
 	
