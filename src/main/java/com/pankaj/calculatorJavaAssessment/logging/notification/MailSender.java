@@ -4,6 +4,7 @@ import static com.pankaj.calculatorJavaAssessment.notification.NotificationConst
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Properties;
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -38,8 +39,12 @@ public class MailSender implements NotificationsSender {
     	logger.info("Preparing Session");
     	Session session = getSession(props, notification);
     	logger.info("Preparing Message with Attachement");
-    	MimeMessage message = prepareMessageWithAttachement(session, notification);
+    	Optional<MimeMessage> optionalMessage = Optional.ofNullable(prepareMessageWithAttachement(session, notification));
+    	if(optionalMessage.isEmpty()) {
+    		logger.error("Failed to prepare message with Attachement");
+    	}else {
     	try {
+    		MimeMessage message = optionalMessage.get();
     		logger.info("Sending Email");
 			Transport.send(message);
 	    	System.out.println("Email sent successfully...");  
@@ -47,6 +52,7 @@ public class MailSender implements NotificationsSender {
 			logger.error("Something went wrong while sending email");
 				e.printStackTrace();
 		}  
+    	}
     }
     
     public Properties prepareProperties() {	
